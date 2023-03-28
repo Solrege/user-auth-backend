@@ -2,9 +2,8 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 const loginHandler = require('./loginHandler')
-const registerHandler = require('./registerHandle')
-
-//const jwt = require("jsonwebtoken");
+const registerHandler = require('./registerHandler')
+const auth = require('./auth')
 
 app.use(express.json())
 
@@ -19,6 +18,10 @@ app.get('/', (req, res) => {
 app.post('/register', registerHandler)
 
 app.post('/login', loginHandler)
+
+app.get('/auth-endpoint', auth, (req, res) => {
+    res.status(200).send('Autorizado a acceder')
+} )
 
 
 
