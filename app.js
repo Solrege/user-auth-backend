@@ -7,7 +7,7 @@ const auth = require('./auth')
 
 app.use(express.json())
 
-const PUERTO = process.env.PUERTO || 3000
+const PUERTO = process.env.PUERTO || 3001
 app.listen(PUERTO, () => {
     console.log(`El servidor está escuchando en el puerto ${PUERTO}`)
 })
