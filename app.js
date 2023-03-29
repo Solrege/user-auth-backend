@@ -1,11 +1,13 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 require('dotenv').config()
 const loginHandler = require('./loginHandler')
 const registerHandler = require('./registerHandler')
 const auth = require('./auth')
 
 app.use(express.json())
+app.use(cors())
 
 const PUERTO = process.env.PUERTO || 3001
 app.listen(PUERTO, () => {
