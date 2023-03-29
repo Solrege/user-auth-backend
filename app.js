@@ -19,7 +19,7 @@ app.post('/register', registerHandler)
 
 app.post('/login', loginHandler)
 
-app.get('/auth-endpoint', auth, (req, res) => {
+app.post('/auth-endpoint', auth, (req, res) => {
     res.status(200).send('Autorizado a acceder')
 } )
 
