@@ -4,11 +4,14 @@ const bcrypt = require("bcrypt");
 
 const registerHandler = async (req, res) => {
     const connection = await mysql.createConnection(config)
-    const userEmail = req.body.userEmail
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
+
+    const { userEmail, name, lastName, birth } = req.body
+    const hashedPassword = bcrypt.hashSync((req.body.password, req.body.passConfirmation), 10)
 
     try {
-        const [results] = await connection.query('INSERT INTO user (userEmail, password) VALUES (?, ?)', [userEmail, hashedPassword])
+        const [results] = await connection.query(
+            'INSERT INTO user (userEmail, password, passConfirmation, name, lastName, birth) VALUES (?, ?, ?, ?, ?, ?)',
+            [userEmail, hashedPassword, hashedPassword, name, lastName, birth])
 
         res.status(201).send({
             "message": 'Usuario creado',
@@ -22,7 +25,7 @@ const registerHandler = async (req, res) => {
         })
     }
 
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash((req.body.password, req.body.passConfirmation), 10)
         .then((hashedPassword) => {
 
         })

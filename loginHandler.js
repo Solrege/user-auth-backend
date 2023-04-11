@@ -23,7 +23,6 @@ const loginHandler = async (req, res) => {
         })
 
 
-
     } catch (e) {
         console.log(e)
 
