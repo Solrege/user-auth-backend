@@ -6,6 +6,8 @@ const loginHandler = require('./loginHandler')
 const registerHandler = require('./registerHandler')
 const auth = require('./auth')
 const { validatorRegister } = require('./validators')
+const newPostHandler = require("./newPostHandler");
+const {getPostHandler} = require("./getPostHandler");
 
 app.use(express.json())
 app.use(cors())
@@ -21,6 +23,12 @@ app.get('/', (req, res) => {
 app.post('/register', validatorRegister, registerHandler)
 
 app.post('/login', loginHandler)
+
+app.get('/homepage', getPostHandler)
+
+app.post('/post', auth, newPostHandler)
+//app.get('/post/:id', auth, newPostHandler)
+
 
 
 /*app.group("/user", (router) => {
