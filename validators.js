@@ -3,6 +3,7 @@ const { check, validationResult} = require('express-validator')
 const validatorRegister = [
     check('userEmail').exists().notEmpty().isEmail(),
     check('password').notEmpty().isLength({min: 8}),
+
     check('passConfirmation').custom((value, {req}) => {
         if (value !== req.body.password) {
             throw new Error ('La confirmación de la contraseña no coincide')

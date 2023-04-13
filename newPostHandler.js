@@ -4,18 +4,16 @@ const config = require("./config");
 const newPostHandler = async (req, res) => {
     const connection = await mysql.createConnection(config)
     const text = req.body.text
-    console.info(req.user)
-    //const upload = req.body.upload
-    connection.query('INSERT INTO post (text) VALUES (?)',
-        [text],
-        (err, res) => {
-        if (err) {
-            console.log(err)
+    const userId = req.userId
 
-            return
-        }
-        res.status(201).send('Post creado')
-    })
+    try {
+      const [results] = await connection.query('INSERT INTO post (userId, text) VALUES (?,?)', [userId, text])
+        res.status(201).send(results)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(404).send("hubo un error")
+    }
 }
 
 module.exports = newPostHandler

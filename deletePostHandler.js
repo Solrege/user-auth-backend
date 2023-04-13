@@ -5,17 +5,14 @@ const deletePostHandler = async (req, res) => {
     const connection = await mysql.createConnection(config)
     const id = req.params.id
 
-    connection.query(
-        'DELETE FROM post WHERE postId = ?', id,
-        (err, results) => {
-            if (err) {
-                console.log(err)
+    try {
+       const [results] = await connection.query('DELETE FROM post WHERE postId = ?', id)
+        res.status(200).send(results).end()
 
-                return
-            }
-            res.status(200).end()
-        }
-    )
+    } catch (err) {
+        console.log(err)
+        res.status(404).send('hubo un error')
+    }
 }
 
 module.exports = deletePostHandler

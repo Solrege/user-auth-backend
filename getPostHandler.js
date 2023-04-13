@@ -7,15 +7,12 @@ const getPostHandler = async (req, res) => {
     try {
         const [results] = await connection.query(
             'SELECT post.*, user.name, user.lastName FROM `post` LEFT JOIN `user` ON post.userId = user.userId')
-
        res.status(200).send(results)
+
     } catch (err) {
         console.log(err)
         return res.status(404).send("hubo un error")
     }
-
-
-
 }
 
 const getPostByIdHandler = async (req, res) => {
@@ -23,8 +20,9 @@ const getPostByIdHandler = async (req, res) => {
     const id = req.params.id
 
     try {
-        const results = await connection.query('SELECT * FROM `post` WHERE `postId` = ?', id)
+        const [results] = await connection.query('SELECT * FROM `post` WHERE `userId` = ?', id)
         res.status(200).send(results)
+
     } catch (err) {
         console.log(err)
         return res.status(404).send("hubo un error")

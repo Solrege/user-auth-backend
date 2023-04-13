@@ -1,13 +1,18 @@
 const express = require('express')
+require('express-group-routes')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
+const router = require('express').Router()
+
+
 const loginHandler = require('./loginHandler')
 const registerHandler = require('./registerHandler')
 const auth = require('./auth')
 const { validatorRegister } = require('./validators')
 const newPostHandler = require("./newPostHandler");
-const {getPostHandler} = require("./getPostHandler");
+const {getPostHandler, getPostByIdHandler} = require("./getPostHandler");
+const deletePostHandler = require('./deletePostHandler')
 
 app.use(express.json())
 app.use(cors())
@@ -23,26 +28,16 @@ app.get('/', (req, res) => {
 app.post('/register', validatorRegister, registerHandler)
 
 app.post('/login', loginHandler)
-
-app.get('/homepage', getPostHandler)
-
-app.post('/post', auth, newPostHandler)
-//app.get('/post/:id', auth, newPostHandler)
-
-
-
-/*app.group("/user", (router) => {
-    //todas estas rutas van a necesitar auth
+app.group('/homepage', (router) => {
+    router.use(auth);
+    router.get('/', getPostHandler);
+    router.get('/:id', getPostByIdHandler);
+})
+app.group('/post', (router) => {
     router.use(auth)
-
-    router.post('/profile', (req, res) => {
-        res.status(200).send('Autorizado a acceder')
-    })
-
-    router.post('/settings', (req, res) => {
-        res.status(200).send('Autorizado a acceder')
-    })
-})*/
+    router.post('/', newPostHandler)
+    router.delete('/:id', deletePostHandler)
+})
 
 
 
