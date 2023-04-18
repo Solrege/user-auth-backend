@@ -16,12 +16,12 @@ const validatorRegister = [
 
 
     (req, res, next) => {
-        try {
-            validationResult(req).throw()
+        const result = validationResult(req)
+        if (result.isEmpty()) {
             return next()
-        } catch (err){
-            res.status(403).send(err)
         }
+
+        res.status(400).send({ errors: result.array() });
     }
 ]
 

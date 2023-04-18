@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 app.post('/register', validatorRegister, registerHandler)
 
-app.post('/login', loginHandler)
+app.post('/', loginHandler)
 app.group('/homepage', (router) => {
     router.use(auth);
     router.get('/', getPostHandler);
