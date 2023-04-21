@@ -31,8 +31,9 @@ app.post('/', loginHandler)
 app.group('/homepage', (router) => {
     router.use(auth);
     router.get('/', getPostHandler);
-    router.get('/:id', getPostByIdHandler);
 })
+
+app.get('/profile/:id', auth, getPostByIdHandler)
 app.group('/post', (router) => {
     router.use(auth)
     router.post('/', newPostHandler)
