@@ -19,6 +19,11 @@ const getPostByIdHandler = async (req, res) => {
     const connection = await mysql.createConnection(config)
     const id = req.params.id
 
+    let userId = parseInt(id, 10)
+    if (!userId) {
+        userId = req.userId
+    }
+
     try {
         const [results] = await connection.query('SELECT * FROM `post` WHERE `userId` = ?', id)
         res.status(200).send(results)
