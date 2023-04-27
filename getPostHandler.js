@@ -1,8 +1,7 @@
 const mysql = require("mysql2/promise");
 const config = require("./config");
-
 const getPostHandler = async (req, res) => {
-    const connection =  await mysql.createConnection(config)
+    const connection = await mysql.createConnection(config)
 
     try {
         const [results] = await connection.query(
@@ -18,6 +17,7 @@ const getPostHandler = async (req, res) => {
 const getPostByIdHandler = async (req, res) => {
     const connection = await mysql.createConnection(config)
     const id = req.params.id
+
 
     let userId = parseInt(id, 10)
     if (!userId) {
