@@ -20,11 +20,12 @@ const getFollowersHandler = async (req, res) => {
 
 const newFollowerHandler = async (req, res) => {
     const connection = await mysql.createConnection(config)
-    const followerUserId = req.params.id
+    const followedUserId = req.params.id
+    const followerUserId = req.userId
 
     try {
         const [results] = await connection.query(
-            'INSERT INTO relationships (`followerUserId, followedUserId`) VALUES (?,?)' , [followerUserId])
+            'INSERT INTO relationships (followerUserId, followedUserId) VALUES (?,?)' , [followerUserId, followedUserId])
         res.status(200).send(results)
 
     } catch (err) {
@@ -34,4 +35,20 @@ const newFollowerHandler = async (req, res) => {
 
 }
 
-module.exports = { getFollowersHandler, newFollowerHandler}
+const deleteFollowerHandler =  async (req, res) => {
+    const connection = await mysql.createConnection(config)
+    const followedUserId = req.params.id
+    const followerUserId = req.userId
+
+    try {
+        const [results] = await connection.query(
+            'DELETE FROM `relationships` WHERE `followerUserId` = ? AND `followedUserId` = ?', [followerUserId, followedUserId])
+        res.status(200).send(results)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(404).send("hubo un error")
+    }
+}
+
+module.exports = { getFollowersHandler, newFollowerHandler, deleteFollowerHandler}

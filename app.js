@@ -14,7 +14,7 @@ const {getPostHandler, getPostByIdHandler} = require("./getPostHandler");
 const deletePostHandler = require('./deletePostHandler')
 const {getCommentHandler, newCommentHandler, deleteCommentHandler} = require("./commentHandler");
 const {getLikesHandler, addLikeHandler, deleteLikeHandler} = require("./likeHandler");
-const {getFollowersHandler, newFollowerHandler} = require("./relationshipsHandler");
+const {getFollowersHandler, newFollowerHandler, deleteFollowerHandler} = require("./relationshipsHandler");
 
 app.use(express.json())
 app.use(cors())
@@ -40,6 +40,7 @@ app.group('/profile', (router) => {
     router.get('/:id?', getPostByIdHandler)
     router.get('/:id/followers' , getFollowersHandler)
     router.post('/:id/follow', newFollowerHandler)
+    router.delete('/:id/follow', deleteFollowerHandler)
 })
 
 

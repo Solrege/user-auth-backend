@@ -25,7 +25,7 @@ const getPostByIdHandler = async (req, res) => {
     }
 
     try {
-        const [results] = await connection.query('SELECT * FROM `post` WHERE `userId` = ?', id)
+        const [results] = await connection.query('SELECT * FROM `post` WHERE `userId` = ?', userId)
         res.status(200).send(results)
 
     } catch (err) {
